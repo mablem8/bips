@@ -166,11 +166,22 @@ transaction logic. Specification details are summarized below.
 
 During the stem phase, transactions are "Dandelion transactions." When a
 Dandelion transaction enters fluff phase, it becomes a typical Bitcoin
-transaction. Dandelion transactions and typical transactions differ only in
-their <code>NetMsgType</code>.
+transaction.
 
 Dandelion (stem phase) transactions MUST be differentiable from typical Bitcoin
 transactions.
+
+Dandelion transactions are identified on the network with the
+<code>dandeliontx</code> message. The payload of a dandelion transaction MUST
+be serialized exactly like the payload of a typical <code>tx</code> message.
+For instance, it MUST be serialized according to BIP 144 if witness version 0
+data is present.  If the witness is empty, the old serialization format SHOULD
+be used.
+
+Peers on the network announce Dandelion support with a protocol message that is
+sent after the <code>verack</code> message. The command name for this message
+MUST be <code>dandelionacc</code> and the payload MUST be empty. The message
+MUST NOT be sent before the <code>version</code> message.
 
 ===Dandelion routing data and logic===
 
